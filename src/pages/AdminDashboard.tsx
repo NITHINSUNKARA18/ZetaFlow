@@ -36,7 +36,9 @@ import {
   Trash2,
   Edit,
   Plus,
-  User
+  User,
+  UserCog,
+  Ticket
 } from 'lucide-react';
 
 const AdminDashboard: React.FC = () => {
@@ -100,6 +102,10 @@ const AdminDashboard: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('zetaflow_admin');
     navigate('/login');
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
   };
 
   // Mock data for dashboard
@@ -310,9 +316,9 @@ const AdminDashboard: React.FC = () => {
 
                       {/* Menu Items */}
                       <div className="py-2">
-                        <a 
-                          href="#" 
-                          className="flex items-center px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        <button 
+                          onClick={() => handleNavigation('/admin/profile')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
                         >
                           <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-blue-200 transition-colors">
                             <User className="h-5 w-5 text-blue-600" />
@@ -322,11 +328,11 @@ const AdminDashboard: React.FC = () => {
                             <div className="text-xs text-gray-500">Manage your admin account settings</div>
                           </div>
                           <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
-                        </a>
+                        </button>
                         
-                        <a 
-                          href="#" 
-                          className="flex items-center px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        <button 
+                          onClick={() => handleNavigation('/admin/system-settings')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
                         >
                           <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-purple-200 transition-colors">
                             <Settings className="h-5 w-5 text-purple-600" />
@@ -336,11 +342,11 @@ const AdminDashboard: React.FC = () => {
                             <div className="text-xs text-gray-500">Configure system parameters and preferences</div>
                           </div>
                           <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
-                        </a>
+                        </button>
                         
-                        <a 
-                          href="#" 
-                          className="flex items-center px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        <button 
+                          onClick={() => handleNavigation('/admin/users')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
                         >
                           <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-green-200 transition-colors">
                             <Users className="h-5 w-5 text-green-600" />
@@ -350,11 +356,11 @@ const AdminDashboard: React.FC = () => {
                             <div className="text-xs text-gray-500">Manage user accounts and permissions</div>
                           </div>
                           <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
-                        </a>
+                        </button>
                         
-                        <a 
-                          href="#" 
-                          className="flex items-center px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        <button 
+                          onClick={() => handleNavigation('/admin/analytics')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
                         >
                           <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-indigo-200 transition-colors">
                             <BarChart3 className="h-5 w-5 text-indigo-600" />
@@ -364,11 +370,39 @@ const AdminDashboard: React.FC = () => {
                             <div className="text-xs text-gray-500">View detailed system analytics and reports</div>
                           </div>
                           <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
-                        </a>
+                        </button>
+
+                        <button 
+                          onClick={() => handleNavigation('/admin/support')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        >
+                          <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-pink-200 transition-colors">
+                            <Ticket className="h-5 w-5 text-pink-600" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">Support Tickets</div>
+                            <div className="text-xs text-gray-500">Manage customer support requests</div>
+                          </div>
+                          <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
+                        </button>
+
+                        <button 
+                          onClick={() => handleNavigation('/admin/admins')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        >
+                          <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-orange-200 transition-colors">
+                            <UserCog className="h-5 w-5 text-orange-600" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">Admin Management</div>
+                            <div className="text-xs text-gray-500">Manage admin accounts and roles</div>
+                          </div>
+                          <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
+                        </button>
                         
-                        <a 
-                          href="#" 
-                          className="flex items-center px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
+                        <button 
+                          onClick={() => handleNavigation('/admin/help')}
+                          className="flex items-center w-full px-6 py-4 text-sm text-gray-700 hover:bg-gray-50 transition-colors group"
                         >
                           <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center mr-4 group-hover:bg-yellow-200 transition-colors">
                             <HelpCircle className="h-5 w-5 text-yellow-600" />
@@ -378,7 +412,7 @@ const AdminDashboard: React.FC = () => {
                             <div className="text-xs text-gray-500">Get admin assistance and documentation</div>
                           </div>
                           <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
-                        </a>
+                        </button>
                       </div>
 
                       {/* Logout Section */}
@@ -564,7 +598,10 @@ const AdminDashboard: React.FC = () => {
                 Quick Actions
               </h2>
               <div className="space-y-3">
-                <button className="w-full text-left p-3 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-colors group">
+                <button 
+                  onClick={() => handleNavigation('/admin/users')}
+                  className="w-full text-left p-3 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-colors group"
+                >
                   <div className="flex items-center space-x-3">
                     <Users className="h-5 w-5 text-blue-400 group-hover:scale-110 transition-transform duration-300" />
                     <div>
@@ -574,7 +611,10 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 </button>
                 
-                <button className="w-full text-left p-3 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 transition-colors group">
+                <button 
+                  onClick={() => handleNavigation('/admin/analytics')}
+                  className="w-full text-left p-3 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 transition-colors group"
+                >
                   <div className="flex items-center space-x-3">
                     <BarChart3 className="h-5 w-5 text-purple-400 group-hover:scale-110 transition-transform duration-300" />
                     <div>
@@ -584,7 +624,10 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 </button>
                 
-                <button className="w-full text-left p-3 rounded-lg bg-green-500/20 hover:bg-green-500/30 transition-colors group">
+                <button 
+                  onClick={() => handleNavigation('/admin/system-settings')}
+                  className="w-full text-left p-3 rounded-lg bg-green-500/20 hover:bg-green-500/30 transition-colors group"
+                >
                   <div className="flex items-center space-x-3">
                     <Settings className="h-5 w-5 text-green-400 group-hover:scale-110 transition-transform duration-300" />
                     <div>
@@ -608,11 +651,17 @@ const AdminDashboard: React.FC = () => {
                 Need assistance with system administration? Our support team is here to help.
               </p>
               <div className="space-y-2">
-                <button className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 transition-colors text-sm text-white">
+                <button 
+                  onClick={() => handleNavigation('/admin/help')}
+                  className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 transition-colors text-sm text-white"
+                >
                   <Globe className="h-4 w-4" />
                   <span>Admin Documentation</span>
                 </button>
-                <button className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm">
+                <button 
+                  onClick={() => handleNavigation('/admin/support')}
+                  className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm"
+                >
                   <MessageCircle className="h-4 w-4" />
                   <span>Contact Support</span>
                 </button>
