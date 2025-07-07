@@ -34,6 +34,15 @@ import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 
+// Admin Pages
+import AdminProfile from './pages/admin/AdminProfile';
+import SystemSettings from './pages/admin/SystemSettings';
+import UserManagement from './pages/admin/UserManagement';
+import Analytics from './pages/admin/Analytics';
+import SupportTickets from './pages/admin/SupportTickets';
+import AdminManagement from './pages/admin/AdminManagement';
+import HelpSupport from './pages/admin/HelpSupport';
+
 function App() {
   return (
     <AuthProvider>
@@ -46,8 +55,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             
-            {/* Admin Dashboard route (no header/footer) */}
+            {/* Admin routes (no header/footer) */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/system-settings" element={<SystemSettings />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/analytics" element={<Analytics />} />
+            <Route path="/admin/support" element={<SupportTickets />} />
+            <Route path="/admin/admins" element={<AdminManagement />} />
+            <Route path="/admin/help" element={<HelpSupport />} />
             
             {/* Protected dashboard route (no header/footer) */}
             <Route 
