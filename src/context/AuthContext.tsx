@@ -107,6 +107,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (error) {
       console.error('Profile update error:', error);
       return false;
+    }
     
     setAuthState({
       user: null,
