@@ -1,12 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  company?: string;
-  avatar?: string;
-}
+import { apiService, User } from '../services/api';
 
 interface AuthState {
   user: User | null;
@@ -18,6 +11,9 @@ interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   signup: (name: string, email: string, password: string, company?: string) => Promise<boolean>;
+  updateProfile: (name: string, company?: string) => Promise<boolean>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<boolean>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -32,28 +28,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Check for existing session on mount
   useEffect(() => {
     const checkAuth = () => {
-      const storedUser = localStorage.getItem('zetaflow_user');
-      const storedToken = localStorage.getItem('zetaflow_token');
+      if (!apiService.isAuthenticated()) {
+        setAuthState({
+          user: null,
+          isAuthenticated: false,
+          isLoading: false
+        });
+        return;
+      }
       
-      if (storedUser && storedToken) {
-        try {
-          const user = JSON.parse(storedUser);
-          setAuthState({
-            user,
-            isAuthenticated: true,
-            isLoading: false
-          });
-        } catch (error) {
-          // Clear invalid data
-          localStorage.removeItem('zetaflow_user');
-          localStorage.removeItem('zetaflow_token');
-          setAuthState({
-            user: null,
-            isAuthenticated: false,
-            isLoading: false
-          });
-        }
-      } else {
+      try {
+        // Verify token with backend
+        const { user } = await apiService.getCurrentUser();
+        setAuthState({
+          user,
+          isAuthenticated: true,
+          isLoading: false
+        });
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        // Clear invalid session
+        await apiService.logout();
         setAuthState({
           user: null,
           isAuthenticated: false,
@@ -65,43 +60,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string, isAdmin: boolean = false): Promise<boolean> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { user } = await apiService.login(email, password, isAdmin);
       
-      // Demo credentials - in real app, this would be an API call
-      const validCredentials = [
-        { email: 'demo@zetaflow.ai', password: 'demo123', name: 'Demo User', company: 'ZetaFlow Demo' },
-        { email: 'admin@zetaflow.ai', password: 'admin123', name: 'Admin User', company: 'ZetaFlow AI' },
-        { email: 'test@example.com', password: 'test123', name: 'Test User', company: 'Test Company' }
-      ];
-
-      const user = validCredentials.find(cred => cred.email === email && cred.password === password);
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false
+      });
       
-      if (user) {
-        const userData: User = {
-          id: Math.random().toString(36).substr(2, 9),
-          name: user.name,
-          email: user.email,
-          company: user.company,
-          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=0284c7&color=fff`
-        };
-
-        // Store in localStorage (in real app, use secure storage)
-        localStorage.setItem('zetaflow_user', JSON.stringify(userData));
-        localStorage.setItem('zetaflow_token', 'demo_token_' + Date.now());
-
-        setAuthState({
-          user: userData,
-          isAuthenticated: true,
-          isLoading: false
-        });
-
-        return true;
-      }
-      
-      return false;
+      return true;
     } catch (error) {
       console.error('Login error:', error);
       return false;
@@ -110,23 +79,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const signup = async (name: string, email: string, password: string, company?: string): Promise<boolean> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const userData: User = {
-        id: Math.random().toString(36).substr(2, 9),
-        name,
-        email,
-        company,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0284c7&color=fff`
-      };
-
-      // Store in localStorage (in real app, use secure storage)
-      localStorage.setItem('zetaflow_user', JSON.stringify(userData));
-      localStorage.setItem('zetaflow_token', 'demo_token_' + Date.now());
+      const { user } = await apiService.register(name, email, password, company);
 
       setAuthState({
-        user: userData,
+        user,
         isAuthenticated: true,
         isLoading: false
       });
@@ -138,9 +94,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('zetaflow_user');
-    localStorage.removeItem('zetaflow_token');
+  const updateProfile = async (name: string, company?: string): Promise<boolean> => {
+    try {
+      const { user } = await apiService.updateProfile(name, company);
+      
+      setAuthState(prev => ({
+        ...prev,
+        user
+      }));
+      
+      return true;
+    } catch (error) {
+      console.error('Profile update error:', error);
+      return false;
     
     setAuthState({
       user: null,
