@@ -236,15 +236,6 @@ const Header: React.FC = () => {
               Contact Us
             </Link>
 
-            <Link
-              to="/login"
-              onClick={() => handleNavigation('/login')}
-              className="hidden md:inline-flex items-center px-6 py-3 border border-transparent text-base lg:text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-brand-600 to-accent-600 hover:from-brand-700 hover:to-accent-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <LogIn className="h-4 w-4 mr-2" />
-              Login
-            </Link>
-
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -324,15 +315,6 @@ const Header: React.FC = () => {
               >
                 <Briefcase className="h-4 w-4" />
                 <span>Contact Us</span>
-              </Link>
-
-              <Link
-                to="/login"
-                className="flex items-center justify-center space-x-2 w-full text-center px-6 py-3 border border-transparent text-base font-semibold rounded-xl text-white bg-gradient-to-r from-brand-600 to-accent-600 hover:from-brand-700 hover:to-accent-700 transition-all duration-300"
-                onClick={() => handleNavigation('/login')}
-              >
-                <LogIn className="h-4 w-4" />
-                <span>Login</span>
               </Link>
             </div>
           </div>

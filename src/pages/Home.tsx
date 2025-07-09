@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Bot, Zap, Shield, Users, TrendingUp, CheckCircle, Star, Play } from 'lucide-react';
+import { ArrowRight, Bot, Zap, Shield, Users, TrendingUp, CheckCircle, Star, Play, Calendar, Clock } from 'lucide-react';
 import VideoModal from '../components/VideoModal';
 
 const Home: React.FC = () => {
@@ -84,6 +84,33 @@ const Home: React.FC = () => {
       rating: 5,
       image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop&crop=face',
       company: 'Digital Dynamics'
+    }
+  ];
+
+  const blogPosts = [
+    {
+      id: 1,
+      title: 'The Future of AI in Recruitment: Transforming Hiring Processes',
+      description: 'Discover how artificial intelligence is revolutionizing the recruitment industry and what it means for the future of hiring.',
+      date: '2025-01-15',
+      readTime: '5 min read',
+      category: 'AI & Recruitment'
+    },
+    {
+      id: 2,
+      title: 'Automating Workflows: A Complete Guide for Modern Businesses',
+      description: 'Learn how to implement workflow automation in your organization to boost productivity and reduce manual tasks.',
+      date: '2025-01-12',
+      readTime: '8 min read',
+      category: 'Automation'
+    },
+    {
+      id: 3,
+      title: 'Building Scalable AI Agents: Best Practices and Implementation',
+      description: 'Explore the key principles and strategies for developing AI agents that can scale with your business needs.',
+      date: '2025-01-10',
+      readTime: '6 min read',
+      category: 'Development'
     }
   ];
 
@@ -281,8 +308,88 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Enhanced Testimonials Section */}
+        {/* Blog Section */}
         <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                Our Latest Blog Posts
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Stay updated with the latest insights, trends, and best practices in AI automation and workflow optimization.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {blogPosts.map((post, index) => (
+                <article
+                  key={post.id}
+                  className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-brand-200 overflow-hidden"
+                >
+                  {/* Category Badge */}
+                  <div className="p-6 pb-0">
+                    <span className="inline-block px-3 py-1 text-xs font-semibold text-brand-600 bg-brand-100 rounded-full mb-4">
+                      {post.category}
+                    </span>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="px-6 pb-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-700 transition-colors duration-300 line-clamp-2">
+                      {post.title}
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
+                      {post.description}
+                    </p>
+                    
+                    {/* Meta Info */}
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="h-4 w-4" />
+                          <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{post.readTime}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Read More Button */}
+                    <Link
+                      to={`/blog/${post.id}`}
+                      className="group/btn inline-flex items-center px-6 py-3 bg-gradient-to-r from-brand-600 to-accent-600 text-white font-semibold rounded-xl hover:from-brand-700 hover:to-accent-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent-600 to-brand-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                      <span className="relative z-10">Read More</span>
+                      <ArrowRight className="ml-2 h-4 w-4 relative z-10 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </div>
+                  
+                  {/* Hover effect overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-500/5 to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </article>
+              ))}
+            </div>
+            
+            {/* View All Posts Button */}
+            <div className="text-center mt-12">
+              <Link
+                to="/blog"
+                className="group inline-flex items-center px-8 py-4 border-2 border-brand-600 text-base font-medium rounded-xl text-brand-600 bg-white hover:bg-brand-50 transition-all duration-300 shadow-md hover:shadow-lg relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-brand-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="relative z-10">View All Posts</span>
+                <ArrowRight className="ml-2 h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Enhanced Testimonials Section */}
+        <section className="py-20 bg-gradient-to-br from-gray-50 to-brand-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">

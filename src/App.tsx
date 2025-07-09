@@ -52,9 +52,6 @@ function App() {
           
           <Routes>
             {/* Public routes with header/footer */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            
             {/* Admin routes (no header/footer) */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
@@ -82,7 +79,6 @@ function App() {
                 <main>
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
                     <Route path="/products/aira" element={<AIRAPage />} />
                     <Route path="/aira/resume-screening" element={<ResumeScreening />} />
                     <Route path="/aira/automated-resume-screening" element={<AutomatedResumeScreeningDetail />} />
@@ -106,7 +102,6 @@ function App() {
                 </main>
                 <Footer />
                 <BackToTop />
-                <Chatbot />
               </>
             } />
           </Routes>
